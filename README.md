@@ -1,16 +1,32 @@
-## What do I do?
+# dealership
 
-Read file and provide vehicle report.
+welcome to our brand new dealrship!<br/>
+you have come to the right place where we make vehicle price list reports.
 
-## Can you show me?
+## what and how
 
-Sure.
+### what
 
-Here is a [sample file](src/main/resources/vehicles.csv) with vehicle information:
+* for a list of vehicles with year, make, model and msrp
+* given a current tax rate
+* we generate a detailed price report that details each vehicle grouped by year and ordered by make
+* the report will display the vehicle’s information along with its list price (the list price is the MSRP x Tax Rate)
+* we then save this report with additional report stats (it would come handy in case something fails)
 
-```bash
-[vehiclereport/src/main/java]$ cat ../resources/vehicles.csv
+### how
 
+dealership takes a configuration properties file in a form of:
+
+```properties
+vehicles.file.path=/tmp/vehicles.csv
+vehicle.price.report.dir=/tmp
+report.stats.dir=/tmp
+tax.rate=1.07
+```
+
+`/tmp/vehicles.csv` will be an input file that would look something like this:
+
+```csv
 year,make,model,msrp
 2012,honda,civic,30000
 2018,acura,mdx,45000
@@ -24,75 +40,19 @@ year,make,model,msrp
 2017,nissan,altima,30000
 ```
 
-### compiling the program
+dealership then:
 
-```bash
-[vehiclereport/src/main/java]$ javac VehicleReporter.java
-```
-
-### running it
-
-#### missed arguments
-
-```bash
-[vehiclereport/src/main/java]$ java VehicleReporter foo
-
-[PROBLEM]: I need exactly 2 arguments, but was given 1 arguments
-
-this program reads a file with vehicle information,
-creates file vehiclesMMDDYY.txt with report which groups vehicles by year, 
-calculates list price based on provided tax rate,
-shows Grand Total for manufacturer suggested retail price and lists price.
-it also provides statistics report file (vehicle-statsMMDDYY.txt) which includes total lines and failed lines(line number, type, attribute, description)
-
-
-usage:       java VehicleReporter <path to a file with tax rate>
-for example: java VehicleReporter ../resources/vehicles.csv 1.07
-```
-
-#### running it for real
-
-```bash
-[vehiclereport/src/main/java]$ java VehicleReporter ../resources/vehicles.csv 1.07
-result:
---- Vehicle Report ---                                                  Date:  08/13/2022
-2012
-	honda civic                    MSRP:$30000.00       List Price:$32100.00
-
-2017
-	ford focus                     MSRP:$27500.00       List Price:$29425.00
-	chevrolet impala               MSRP:$33000.00       List Price:$35310.00
-	honda accord                   MSRP:$28000.00       List Price:$29960.00
-	nissan altima                  MSRP:$30000.00       List Price:$32100.00
-
-2018
-	acura mdx                      MSRP:$45000.00       List Price:$48150.00
-	chrysler pacifica              MSRP:$40000.00       List Price:$42800.00
-	jeep wrangler                  MSRP:$55000.00       List Price:$58850.00
-
-2019
-	infinity g35                   MSRP:$50000.00       List Price:$53500.00
-	chevrolet avalanche            MSRP:$60000.00       List Price:$64200.00
-
---- Grand Total ---
-	MSRP:$398500.00
-	List Price:$426395.00
-
-```
-
-```bash
-[vehiclereport/src/main/java]$ java VehicleReporter ../resources/vehiclesWithInvalidData.csv 1.07
-
---- Stats report ---
-Lines count: 10
-Failed lines: 
-
-line: 0, type: vehicle.Vehicle, atribute: model, description: vehicle model cannot be empty.
-line: 1, type: vehicle.Vehicle, atribute: msrp, description: vehicle msrp should be positive, but was [-1]
-line: 2, type: vehicle.Vehicle, atribute: year, description: invalid vehicle year. expected a value larger than 1769, but received: [1082]
-line: 7, type: vehicle.Vehicle, atribute: model, description: vehicle model cannot be empty.
-
-
-```
+* parses the configuration file into [env.Config](src/main/java/env/Config.java)
+* ingests the input (csv) file into a list of [Result](src/main/java/either/Result.java)s
+  - in order to do that it parses each line with a [VehicleCsvParser](src/main/java/vehicle/VehicleCsvParser.java)
+  - and validates it with a [VehicleValidator](src/main/java/vehicle/VehicleValidator.java)
+  - in case of an [Error](src/main/java/error/Errors.java#L10-L51), it records it as Result's [Errors](src/main/java/error/Errors.java)
+* creates a [VehicleTextReport](src/main/java/report/VehicleTextReport.java)
+  - that is constructed from a list of Results
+* calls a [generate](src/main/java/report/VehicleReporter.java#L33) method of VehicleTextReport
+  - that [makes](src/main/java/report/VehicleTextReport.java#L120) a [VehiclePriceList](src/main/java/report/VehiclePriceList.java)
+  - creates [text reports](src/main/java/report/VehicleTextReport.java#L122)
+  - creates [statistics](src/main/java/report/VehicleTextReport.java#L124)
+  - and [writes both](src/main/java/report/VehicleTextReport.java#L128-L134) report and statistics into text files
 
 
