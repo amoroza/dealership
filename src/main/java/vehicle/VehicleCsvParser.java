@@ -42,7 +42,7 @@ public class VehicleCsvParser implements CsvParser<Vehicle> {
     public Result<Vehicle> parse(final String line) {
 
         // TODO: check line for null
-        String[] vehicle = line.split(COMMA);
+        final String[] vehicle = line.split(COMMA);
 
         try {
 
@@ -51,10 +51,10 @@ public class VehicleCsvParser implements CsvParser<Vehicle> {
                                            " number of fields, but received [" + vehicle.length + "]");
             }
 
-            var year = parseYear(vehicle[0]);
-            var make = vehicle[1];
-            var model = vehicle[2];
-            var msrp = parseManufacturerSuggestedRetailPrice(vehicle[3]);
+            final var year = parseYear(vehicle[0]);
+            final var make = vehicle[1];
+            final var model = vehicle[2];
+            final var msrp = parseManufacturerSuggestedRetailPrice(vehicle[3]);
 
             return new Result<>(
                     new Vehicle(year, make, model, msrp));

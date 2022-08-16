@@ -3,11 +3,8 @@ package env;
 import java.io.File;
 import java.io.FileInputStream;
 import java.math.BigDecimal;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.Properties;
 
-import static java.util.Objects.nonNull;
 
 public class Config {
     public static final String VEHICLES_FILE_PATH = "vehicles.file.path";
@@ -50,7 +47,7 @@ public class Config {
         private BigDecimal taxRate;
 
 
-        private BigDecimal parseTaxRate(String rawTaxRate) {
+        private BigDecimal parseTaxRate(final String rawTaxRate) {
 
             BigDecimal taxRate;
 
@@ -98,7 +95,7 @@ public class Config {
     }
 
     public static Config loadConfig() {
-        var path = System.getProperty("config.path");
+        final var path = System.getProperty("config.path");
 
         if (path == null || ! new File(path).exists()) {
             throw new RuntimeException("could not find a configuration file in path provided (or not): " +
@@ -108,8 +105,8 @@ public class Config {
         }
 
         try {
-            var configIn = new FileInputStream(path);
-            var props = new Properties();
+            final var configIn = new FileInputStream(path);
+            final var props = new Properties();
             props.load(configIn);
             
             return Config.Builder.newInstance()
@@ -126,10 +123,10 @@ public class Config {
     }
 
     public Config withSystemProperties () {
-        var inputFilePath = System.getProperty(VEHICLES_FILE_PATH);
-        var reportDir = System.getProperty(VEHICLE_PRICE_REPORT_DIR);
-        var reportStatsDir = System.getProperty(REPORT_STATS_DIR);
-        var taxRate =  System.getProperty(TAX_RATE);
+        final var inputFilePath = System.getProperty(VEHICLES_FILE_PATH);
+        final var reportDir = System.getProperty(VEHICLE_PRICE_REPORT_DIR);
+        final var reportStatsDir = System.getProperty(REPORT_STATS_DIR);
+        final var taxRate =  System.getProperty(TAX_RATE);
 
         return Config.Builder.newInstance()
                      .inputFilePath(inputFilePath == null ? this.inputFilePath : inputFilePath)

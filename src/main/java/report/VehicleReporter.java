@@ -29,8 +29,8 @@ public class VehicleReporter {
         final var ingester = new CsvFileIngester<>(new VehicleCsvParser(),
                                                    new VehicleValidator());
 
-        var ingested = ingester.ingest(config.getInputFilePath());
-        var report = new VehicleTextReport(ingested);
+        final var ingested = ingester.ingest(config.getInputFilePath());
+        final var report = new VehicleTextReport(ingested);
 
         report.generate(config);
     }

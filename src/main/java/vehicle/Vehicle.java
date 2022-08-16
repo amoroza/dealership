@@ -41,7 +41,7 @@ public class Vehicle {
         return listPrice;
     }
 
-    public void setListPrice(BigDecimal listPrice) {
+    public void setListPrice(final BigDecimal listPrice) {
         this.listPrice = listPrice;
     }
 

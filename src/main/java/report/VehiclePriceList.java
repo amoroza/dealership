@@ -13,7 +13,7 @@ public class VehiclePriceList {
     final private BigDecimal totalMsrp;
     final private BigDecimal totalListPrice;
 
-    private VehiclePriceList(Map<Integer, List<Vehicle>> vehicles, BigDecimal totalMsrp, BigDecimal totalListPrice) {
+    private VehiclePriceList(final Map<Integer, List<Vehicle>> vehicles, final BigDecimal totalMsrp, final BigDecimal totalListPrice) {
         this.vehicles = vehicles;
         this.totalMsrp = totalMsrp;
         this.totalListPrice = totalListPrice;
@@ -50,10 +50,10 @@ public class VehiclePriceList {
     }
 
     public static VehiclePriceList makePriceList(final List<Vehicle> vehicles, final BigDecimal taxRate) {
-        List<Vehicle> vehicleWithPriceList = addListPrices(vehicles, taxRate);
-        BigDecimal totalMsrp = calculateTotalManufacturerSuggestedRetailPrice(vehicleWithPriceList);
-        BigDecimal totalListPrice= calculateTotalListPrice(vehicleWithPriceList);
-        Map<Integer, List<Vehicle>> groupByYearVehicles = groupByYear(vehicleWithPriceList);
+        final List<Vehicle> vehicleWithPriceList = addListPrices(vehicles, taxRate);
+        final BigDecimal totalMsrp = calculateTotalManufacturerSuggestedRetailPrice(vehicleWithPriceList);
+        final BigDecimal totalListPrice= calculateTotalListPrice(vehicleWithPriceList);
+        final Map<Integer, List<Vehicle>> groupByYearVehicles = groupByYear(vehicleWithPriceList);
         return new VehiclePriceList(groupByYearVehicles, totalMsrp, totalListPrice);
     }
 }

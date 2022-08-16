@@ -13,9 +13,9 @@ public final class Errors {
         private final String attribute;
         private final String description;
 
-        public FieldError(String type,
-                          String attribute,
-                          String description) {
+        public FieldError(final String type,
+                          final String attribute,
+                          final String description) {
             this.type = type;
             this.attribute = attribute;
             this.description = description;

@@ -24,7 +24,7 @@ public class CsvFileIngester<T> {
 
     public List<Result<T>> ingest(final String path) throws IOException {
 
-        var items = new ArrayList<Result<T>>();
+        final var items = new ArrayList<Result<T>>();
 
         try (Stream<String> s = Files.lines(Paths.get(path))) {
             s.filter(line -> !parser.isHeader(line))
@@ -36,7 +36,7 @@ public class CsvFileIngester<T> {
         }
     }
 
-    private Result<T> parseAndValidate (String line) {
+    private Result<T> parseAndValidate (final String line) {
 
         final var parsed = parser.parse(line);
 
@@ -44,7 +44,7 @@ public class CsvFileIngester<T> {
             return parsed;
         }
 
-        Result<T> validated = validator.validate(parsed.getRecord());
+        final Result<T> validated = validator.validate(parsed.getRecord());
 
         return validated.isSuccess()?
                 parsed

@@ -47,7 +47,7 @@ public final class VehicleValidator implements Validator<Vehicle> {
         }
     }
 
-    public Result validateManufacturerSuggestedRetailPrice(final BigDecimal msrp){ // raspishi msrp
+    public Result validateManufacturerSuggestedRetailPrice(final BigDecimal msrp){
         if (msrp.compareTo(BigDecimal.ZERO) > 0) {
             return Result.success();
         } else {
@@ -60,7 +60,7 @@ public final class VehicleValidator implements Validator<Vehicle> {
     @Override
     public Result<Vehicle> validate(final Vehicle vehicle) {
 
-        var results = List.of(validateYear(vehicle.getYear()),
+        final var results = List.of(validateYear(vehicle.getYear()),
                                            validateNotEmpty(vehicle.getMake(), MAKE),
                                            validateNotEmpty(vehicle.getModel(), MODEL),
                                            validateManufacturerSuggestedRetailPrice(vehicle.getMsrp()));

@@ -54,9 +54,9 @@ public final class VehicleTextReport {
     }
 
     private static void makeVehicleList(final Map<Integer, List<Vehicle>> vehicles) {
-        for (var entry : vehicles.entrySet()) {
+        for (final var entry : vehicles.entrySet()) {
             reportLines.add(entry.getKey().toString());
-            for (Vehicle vehicle: entry.getValue()) {
+            for (final Vehicle vehicle: entry.getValue()) {
                 String line = String.format("\t%-30s %-20s %s", vehicle.getMake() + SPACE
                                             + vehicle.getModel(), "MSRP:$"
                                             + vehicle.getMsrp().setScale(2, RoundingMode.DOWN),
@@ -117,11 +117,11 @@ public final class VehicleTextReport {
 
     public void generate(final Config config) {
 
-        var priceList = VehiclePriceList.makePriceList(findVehicles(), config.getTaxRate());
-        var stats = makeStats();
-        var report = makeReport(priceList);
-        var reportPath = makeReportFilePath(config);
-        var statsPath = makeStatsReportFilePath(config);
+        final var priceList = VehiclePriceList.makePriceList(findVehicles(), config.getTaxRate());
+        final var stats = makeStats();
+        final var report = makeReport(priceList);
+        final var reportPath = makeReportFilePath(config);
+        final var statsPath = makeStatsReportFilePath(config);
 
         try {
 

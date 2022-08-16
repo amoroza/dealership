@@ -9,12 +9,12 @@ public class Result<T> {
     private Errors errors = new Errors();
     private T record;
 
-    private Result(Errors.FieldError error) {
+    private Result(final Errors.FieldError error) {
         this.errors.addError(error);
     }
     private Result() {}
 
-    public Result(T record) {
+    public Result(final T record) {
         this.record = record;
     }
 
@@ -26,11 +26,11 @@ public class Result<T> {
         return new Result<>();
     }
 
-    public static Result error(Errors.FieldError err) {
+    public static Result error(final Errors.FieldError err) {
         return new Result<>(err);
     }
 
-    public static Result errors(Errors errors) {
+    public static Result errors(final Errors errors) {
         return new Result(errors);
     }
 
