@@ -13,7 +13,7 @@ public final class VehicleValidator implements Validator<Vehicle> {
     /**
      * Development of the automobile started in 1672 with the invention of the first steam-powered vehicle,
      * which led to the creation of the first steam-powered automobile capable of human transportation,
-     * built by Nicolas-Joseph Cugnot in 1769
+     * built by Nicolas-Joseph Cugnot in 1769.
      */
     public static final int FIRST_VEHICLE_PRODUCTION_YEAR = 1769;
 

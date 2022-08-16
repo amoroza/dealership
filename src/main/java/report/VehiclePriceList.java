@@ -3,9 +3,7 @@ package report;
 import vehicle.Vehicle;
 
 import java.math.BigDecimal;
-import java.util.List;
-import java.util.Map;
-import java.util.TreeMap;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class VehiclePriceList {
@@ -39,7 +37,9 @@ public class VehiclePriceList {
     }
 
     public static Map<Integer, List<Vehicle>> groupByYear(final List<Vehicle> vehicles){
-        return vehicles.stream().collect(Collectors.groupingBy(Vehicle::getYear, TreeMap::new, Collectors.toList()));
+        return vehicles.stream()
+                .sorted(Comparator.comparing(Vehicle::getMake))
+                .collect(Collectors.groupingBy(Vehicle::getYear, TreeMap::new, Collectors.toList()));
     }
 
     public static BigDecimal calculateTotalManufacturerSuggestedRetailPrice(final List<Vehicle> vehicles){
