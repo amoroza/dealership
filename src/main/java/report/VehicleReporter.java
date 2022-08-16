@@ -24,6 +24,8 @@ public class VehicleReporter {
          */
         var config = Config.loadConfig().withSystemProperties();
 
+        System.out.println("working with config: " + config);
+
         final var ingester = new CsvFileIngester<>(new VehicleCsvParser(),
                                                    new VehicleValidator());
 

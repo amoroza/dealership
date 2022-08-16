@@ -111,9 +111,7 @@ public class Config {
             var configIn = new FileInputStream(path);
             var props = new Properties();
             props.load(configIn);
-
-            System.out.println("config: " + props);
-
+            
             return Config.Builder.newInstance()
                          .inputFilePath(props.getProperty(VEHICLES_FILE_PATH))
                          .priceReportDir(props.getProperty(VEHICLE_PRICE_REPORT_DIR))
